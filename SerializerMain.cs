@@ -7,10 +7,23 @@ namespace GenericSerializer
     {
         private static void Main()
         {
+            var serial = new Serializer();
+            serial.AddInt32(0);
+            serial.AddString("Pb4");
+            serial.AddString("Pb4.1");
+            serial.AddString("Update");
 
+            var final = serial.FinalizeSerializationProcess();
+
+            var des = new Deserializer(final);
+
+            var i1 = des.GetInt32();
+            var s1 = des.GetString();
+            var s2 = des.GetString();
+            var s3 = des.GetString();
+            Console.WriteLine("blub");
         }
     }
-
 
     public class ParserException : Exception
     {
@@ -32,7 +45,7 @@ namespace GenericSerializer
 
         public int CurrentPosition
         {
-            get => _currentPosition;
+            get { return _currentPosition; }
             private set
             {
                 if (value > _serializedData.Length)
@@ -154,6 +167,7 @@ namespace GenericSerializer
 
         public void AddInt32(int data)
         {
+            
             FinalizedException();
             _serializer.Append(data.ToString("D10"));
         }
